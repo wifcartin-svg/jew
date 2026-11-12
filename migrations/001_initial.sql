@@ -1,0 +1,51 @@
+PRAGMA foreign_keys = ON;
+CREATE TABLE IF NOT EXISTS products (
+  id INTEGER PRIMARY KEY,
+  slug TEXT UNIQUE NOT NULL,
+  name TEXT NOT NULL,
+  category TEXT NOT NULL,
+  price INTEGER NOT NULL CHECK(price >= 0),
+  description TEXT NOT NULL,
+  material TEXT NOT NULL,
+  finish TEXT NOT NULL,
+  image TEXT NOT NULL,
+  stock INTEGER NOT NULL DEFAULT 10 CHECK(stock >= 0),
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS orders (
+  id INTEGER PRIMARY KEY,
+  order_number TEXT UNIQUE NOT NULL,
+  full_name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  address TEXT NOT NULL,
+  city TEXT NOT NULL,
+  state TEXT NOT NULL,
+  postal_code TEXT NOT NULL,
+  country TEXT NOT NULL,
+  subtotal INTEGER NOT NULL,
+  shipping INTEGER NOT NULL,
+  total INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS order_items (
+  id INTEGER PRIMARY KEY,
+  order_id INTEGER NOT NULL REFERENCES orders(id),
+  product_id INTEGER NOT NULL REFERENCES products(id),
+  product_name TEXT NOT NULL,
+  quantity INTEGER NOT NULL CHECK(quantity > 0),
+  unit_price INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS newsletter (
+  id INTEGER PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS messages (
+  id INTEGER PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  subject TEXT NOT NULL,
+  message TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

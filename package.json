@@ -1,0 +1,8 @@
+{
+  "name": "jemiki-jewellery-store",
+  "version": "1.0.0",
+  "private": true,
+  "description": "JEMIKI demo jewellery storefront with a local SQLite backend",
+  "scripts": { "start": "node --env-file-if-exists=.env server.js", "dev": "node --env-file-if-exists=.env --watch server.js", "db:migrate": "node migrate.js", "db:seed": "node seed.js" },
+  "engines": { "node": ">=22.9" }
+}
