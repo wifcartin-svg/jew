@@ -8,6 +8,7 @@ const root = __dirname;
 const db = new DatabaseSync(path.join(root, 'data', 'jemiki.sqlite'));
 db.exec('PRAGMA foreign_keys = ON;');
 const port = Number(process.env.PORT || 3000);
+const host = process.env.HOST || '127.0.0.1';
 const categories = ['necklaces','earrings','rings','bracelets'];
 const json = (res, status, data) => { res.writeHead(status, { 'Content-Type':'application/json; charset=utf-8', 'Cache-Control':'no-store', 'X-Content-Type-Options':'nosniff' }); res.end(JSON.stringify(data)); };
 const product = p => ({ ...p, price: Number(p.price), stock: Number(p.stock) });
@@ -39,5 +40,5 @@ async function api(req,res,url) {
 }
 const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml'};
 const server=http.createServer(async(req,res)=>{try{const url=new URL(req.url,'http://localhost');if(url.pathname.startsWith('/api/'))return await api(req,res,url);let target=decodeURIComponent(url.pathname);if(target==='/'||target==='/index.html')target='/index.html';const parts=target.split(/[\\/]+/).filter(Boolean);if(parts.some(x=>x.startsWith('.')||['data','node_modules'].includes(x)))return json(res,404,{error:'Not found'});let file=path.resolve(root,'.'+target);if(!file.startsWith(root+path.sep))return json(res,403,{error:'Forbidden'});if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,'index.html');if(!fs.existsSync(file)||!fs.statSync(file).isFile())file=path.join(root,'index.html');res.writeHead(200,{'Content-Type':types[path.extname(file)]||'application/octet-stream','X-Content-Type-Options':'nosniff'});fs.createReadStream(file).pipe(res)}catch(e){json(res,500,{error:'Something went wrong. Please try again.'})}});
-if (require.main === module) server.listen(port,'127.0.0.1',()=>console.log(`JEMIKI is ready at http://localhost:${port}`));
+if (require.main === module) server.listen(port,host,()=>console.log(`JEMIKI is ready at http://localhost:${port}`));
 module.exports = { api, db, server };

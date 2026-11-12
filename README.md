@@ -66,6 +66,10 @@ git push -u origin main
 
 The `.gitignore` excludes local SQLite databases, environment files, dependencies, and build output. Replace the example GitHub remote with your own repository URL. Add screenshots to this README after capturing the site locally.
 
+## Public demo deployment
+
+The repository includes a `render.yaml` Blueprint for a free Render web service. Connect the repository to Render and create the Blueprint to get a public `onrender.com` URL. Free services spin down after inactivity, and their local filesystem is temporary, so the demo SQLite database (including placed orders) can reset after a restart. Do not enter real customer information.
+
 ## Screenshots
 
 Add desktop and mobile screenshots here after running the storefront locally.

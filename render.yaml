@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: jemiki-storefront
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 22.20.0
+      - key: HOST
+        value: 0.0.0.0
+      - key: SHIPPING_CHARGE
+        value: "0"
